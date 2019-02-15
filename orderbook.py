@@ -1,4 +1,3 @@
-```
 import bisect
 import numpy as np
 
@@ -188,4 +187,3 @@ class tokenbook(object):
 
     def sortby(self, attribute):
         return
-        ```
