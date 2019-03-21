@@ -1,4 +1,5 @@
 import numpy as np
+import bisect
 
 class Tokenbook(object):
     def __init__(self):
