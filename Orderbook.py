@@ -96,11 +96,11 @@ for dex in ExampleBook.DEXs:
                 print(prc, ": [volume, eth_price, fee]:", ExampleBook.DEXs[dex].tokens[token].Pairs[pair].bid_book[prc], "\n")
 #RadarRelay :
 #WETH - DAI :
-#137.1 : volume: 11
+#137.1 : [volume, eth_price, fee]: [18, 7.5, 0] 
 
 #Bancor :
 #BTC - RVN :
-#1.131e-05 : volume: 2100
+#1.131e-05 : [volume, eth_price, fee]: [2100, 0.0002, 0] 
 example4 = order("RadarRelay", "WETH", "DAI", 10, 7.5, 1000, 0)
 add_order(example4, ExampleBook)
 example5 = order("Bancor", "DAI", "WETH", 10, 0.02, 0.002, 0)
