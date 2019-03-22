@@ -1,15 +1,14 @@
+#from RaderRelay import order
+
 class Pair(object):
     def __init__(self):
-        self.bid_book = {} # bid_book = {price : [volume, [ids]]}
-
+        self.bid_book = {} # bid_book = {price : [volume, eth_price, fee]}
 
     def add_order_to_Pair(self, order):
         if order.price in self.bid_book:
             self.bid_book[order.price][0] += order.volume
-            self.bid_book[order.price][1].append(order.id)
         else:
-            self.bid_book[order.price] = [order.volume, [order.id]]
-
+            self.bid_book[order.price] = [order.volume, order.eth_price, order.fee]
 
 class Tokenbook(object):
     def __init__(self):
@@ -48,13 +47,14 @@ class Orderbook(object):
 
 
 class order(object):
-    def __init__(self, dex, id, price, vol, bid, ask):
+    def __init__(self, dex, bid, ask, volume, eth_price, price, fee):
         self.dex_name = dex
         self.bid_name = bid
         self.ask_name = ask
-        self.volume = vol
-        self.id = id
+        self.volume = volume
         self.price = price
+        self.eth_price = eth_price
+        self.fee = fee
 
 
 def add_order(order, Orderbook):
@@ -81,11 +81,11 @@ def find_best_match(token1, token2):
 
 
 ExampleBook = Orderbook()
-example = order("RadarRelay", "1218278hgihfh3uf3$ygf8e", 137.1, 10, "WETH", "DAI")
+example = order("RadarRelay", "WETH", "DAI", 10, 7.5, 137.1, 0)
 add_order(example, ExampleBook)
-example2 = order("RadarRelay", "18778778hgihfh3uf3$ygf76g", 137.1, 1, "WETH", "DAI")
+example2 = order("RadarRelay", "WETH", "DAI", 8, 7.5, 137.1, 0)
 add_order(example2, ExampleBook)
-example3 = order("Bancor", "838gd78fgf78egf78idfd8k0", 0.00001131, 2100, "BTC", "RVN")
+example3 = order("Bancor", "BTC", "RVN", 2100, 0.0002, 0.00001131, 0)
 add_order(example3, ExampleBook)
 for dex in ExampleBook.DEXs:
     print(dex, ":")
@@ -93,17 +93,17 @@ for dex in ExampleBook.DEXs:
         for pair in ExampleBook.DEXs[dex].tokens[token].Pairs:
             print(token, "-", pair, ":")
             for prc in ExampleBook.DEXs[dex].tokens[token].Pairs[pair].bid_book:
-                print(prc, ": volume:", ExampleBook.DEXs[dex].tokens[token].Pairs[pair].bid_book[prc][0], "orderIds:", ExampleBook.DEXs[dex].tokens[token].Pairs[pair].bid_book[prc][1], "\n")
+                print(prc, ": [volume, eth_price, fee]:", ExampleBook.DEXs[dex].tokens[token].Pairs[pair].bid_book[prc], "\n")
 #RadarRelay :
 #WETH - DAI :
-#137.1 : volume: 11 orderIds: ['1218278hgihfh3uf3$ygf8e', '18778778hgihfh3uf3$ygf76g']
+#137.1 : volume: 11
 
 #Bancor :
 #BTC - RVN :
-#1.131e-05 : volume: 2100 orderIds: ['838gd78fgf78egf78idfd8k0']
-example4 = order("RadarRelay", "18778778hgihfh3uf3$ygf76j", 1000, 1, "WETH", "DAI")
+#1.131e-05 : volume: 2100
+example4 = order("RadarRelay", "WETH", "DAI", 10, 7.5, 1000, 0)
 add_order(example4, ExampleBook)
-example5 = order("Bancor", "18778778hgihfh3uf3$ygf76k", 0.002, 1, "DAI", "WETH")
+example5 = order("Bancor", "DAI", "WETH", 10, 0.02, 0.002, 0)
 add_order(example5, ExampleBook)
 print(find_best_match("WETH", "DAI"))
 #[1000, 0.002, 2.0]
