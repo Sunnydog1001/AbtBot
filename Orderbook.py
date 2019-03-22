@@ -75,3 +75,10 @@ for dex in ExampleBook.DEXs:
             print(token, "-", pair, ":")
             for prc in ExampleBook.DEXs[dex].tokens[token].Pairs[pair].bid_book:
                 print(prc, ": volume:", ExampleBook.DEXs[dex].tokens[token].Pairs[pair].bid_book[prc][0], "orderIds:", ExampleBook.DEXs[dex].tokens[token].Pairs[pair].bid_book[prc][1], "\n")
+#RadarRelay :
+#WETH - DAI :
+#137.1 : volume: 11 orderIds: ['1218278hgihfh3uf3$ygf8e', '18778778hgihfh3uf3$ygf76g'] 
+
+#Bancor :
+#BTC - RVN :
+#1.131e-05 : volume: 2100 orderIds: ['838gd78fgf78egf78idfd8k0'] 
