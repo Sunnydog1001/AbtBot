@@ -60,6 +60,7 @@ class order(object):
 def add_order(order, Orderbook):
     Orderbook.add_order_to_orderbook(order)
 
+    
 ExampleBook = Orderbook()
 example = order("RadarRelay", "1218278hgihfh3uf3$ygf8e", 137.1, 10, "WETH", "DAI")
 add_order(example, ExampleBook)
