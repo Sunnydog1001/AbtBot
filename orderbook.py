@@ -1,6 +1,7 @@
 from order import Order
 
 class Pair(object):
+
     def __init__(self):
         self.bid_book = {} # bid_book = {price : [volume, eth_price, fee]}
 
@@ -11,6 +12,7 @@ class Pair(object):
             self.bid_book[order.price] = [order.volume, order.eth_price, order.fee]
 
 class Tokenbook(object):
+
     def __init__(self):
         self.Pairs = {}  # PairName : PairObject
 
@@ -21,8 +23,8 @@ class Tokenbook(object):
             self.Pairs[order.ask_name] = Pair()
             self.Pairs[order.ask_name].add_order_to_Pair(order)
 
-
 class DEX(object):
+
     def __init__(self):
         self.tokens = {}  # TokenName : TokenObject
 
@@ -35,8 +37,10 @@ class DEX(object):
 
 
 class Orderbook(object):
+
     def __init__(self):
-        self.DEXs = {}  # DEXName : DEXObject
+        self.DEXs = {}
+        self.order_dict = {}
 
     def add_order_to_orderbook(self, order):
         if order.dex_name in self.DEXs:
@@ -45,8 +49,10 @@ class Orderbook(object):
             self.DEXs[order.dex_name] = DEX()
             self.DEXs[order.dex_name].add_order_to_DEX(order)
 
+        if (order.ask_name, order.bid_name) not in self.order_dict:
+            self.order_dict[order.ask_name, order.bid_name] = [order]
+        else:
+            self.order_dict[(order.ask_name, order.bid_name)].append(order)
 
 def add_order(order, Orderbook):
     Orderbook.add_order_to_orderbook(order)
-
-
