@@ -6,21 +6,22 @@ def add_order(order, Orderbook):
     Orderbook.add_order_to_orderbook(order)
 
 main_orderbook = Orderbook()
-ExampleBook = Orderbook()
-example = Order("RadarRelay", "WETH", "DAI", 10, 7.5, 137.1, 0)
-add_order(example, ExampleBook)
-example2 = Order("RadarRelay", "WETH", "DAI", 8, 7.5, 137.1, 0)
-add_order(example2, ExampleBook)
-example3 = Order("Bancor", "BTC", "RVN", 2100, 0.0002, 0.00001131, 0)
-add_order(example3, ExampleBook)
+example_book = Orderbook()
 
-for dex in ExampleBook.DEXs:
+example = Order("RadarRelay", "WETH", "DAI", 10, 7.5, 137.1, 0)
+add_order(example, example_book)
+example2 = Order("RadarRelay", "WETH", "DAI", 8, 7.5, 137.1, 0)
+add_order(example2, example_book)
+example3 = Order("Bancor", "BTC", "RVN", 2100, 0.0002, 0.00001131, 0)
+add_order(example3, example_book)
+
+for dex in example_book.DEXs:
     print(dex, ":")
-    for token in ExampleBook.DEXs[dex].tokens:
-        for pair in ExampleBook.DEXs[dex].tokens[token].Pairs:
+    for token in example_book.DEXs[dex].tokens:
+        for pair in example_book.DEXs[dex].tokens[token].Pairs:
             print(token, "-", pair, ":")
-            for prc in ExampleBook.DEXs[dex].tokens[token].Pairs[pair].bid_book:
-                print(prc, ": [volume, eth_price, fee]:", ExampleBook.DEXs[dex].tokens[token].Pairs[pair].bid_book[prc], "\n")
+            for prc in example_book.DEXs[dex].tokens[token].Pairs[pair].bid_book:
+                print(prc, ": [volume, eth_price, fee]:", example_book.DEXs[dex].tokens[token].Pairs[pair].bid_book[prc], "\n")
 
 #RadarRelay :
 #WETH - DAI :
@@ -31,8 +32,8 @@ for dex in ExampleBook.DEXs:
 #1.131e-05 : [volume, eth_price, fee]: [2100, 0.0002, 0]
 
 example4 = Order("RadarRelay", "WETH", "DAI", 10, 7.5, 1000, 0)
-add_order(example4, ExampleBook)
+add_order(example4, example_book)
 example5 = Order("Bancor", "DAI", "WETH", 10, 0.02, 0.002, 0)
-add_order(example5, ExampleBook)
+add_order(example5, example_book)
 
-print(find_best_match("WETH", "DAI"))
+print(find_best_match(example_book, "WETH", "DAI"))

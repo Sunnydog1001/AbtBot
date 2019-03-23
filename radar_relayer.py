@@ -10,22 +10,21 @@ book_url2 = "/book"
 
 def getBids(orders, market):
 	try:
-		urllib.request.urlopen(book_url1 + market + book_url2)
+		with urllib.request.urlopen(book_url1 + market + book_url2) as response:
+			jsn = response.read()
+			info = json.loads(jsn)
+			pair = market.split("-")
+			from_token = pair[0]
+			to_token = pair[1]
+			bids = info["bids"]
+			for bid in bids:
+				from_amount = bid["remainingBaseTokenAmount"]
+				eth_from_price = bid["price"]
+				eq_from_price = eth_from_price
+				order = Order(from_token, to_token, from_amount, eth_from_price, eq_from_price)
+				orders.append(order)
 	except:
-		return
-	with urllib.request.urlopen(book_url1 + market + book_url2) as response:
-		jsn = response.read()
-		info = json.loads(jsn)
-		pair = market.split("-")
-		from_token = pair[0]
-		to_token = pair[1]
-		bids = info["bids"]
-		for bid in bids:
-			from_amount = bid["remainingBaseTokenAmount"]
-			eth_from_price = bid["price"]
-			eq_from_price = eth_from_price
-			order = Order(from_token, to_token, from_amount, eth_from_price, eq_from_price)
-			orders.append(order)
+		print("error")
 
 def getAsks(orders, market):
 	try:
@@ -42,9 +41,11 @@ def getAsks(orders, market):
 				eq_from_price = eth_from_price
 				order = Order(from_token, to_token, from_amount, eth_from_price, eq_from_price)
 				orders.append(order)
-	except :
-		print("xyu")
+	except:
+		print("error")
 
+
+def
 pairs = {}
 orders = []
 with urllib.request.urlopen(pairs_url) as response:
