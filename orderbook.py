@@ -1,4 +1,4 @@
-#from RaderRelay import order
+from order import Order
 
 class Pair(object):
     def __init__(self):
@@ -46,17 +46,6 @@ class Orderbook(object):
             self.DEXs[order.dex_name].add_order_to_DEX(order)
 
 
-class order(object):
-    def __init__(self, dex, bid, ask, volume, eth_price, price, fee):
-        self.dex_name = dex
-        self.bid_name = bid
-        self.ask_name = ask
-        self.volume = volume
-        self.price = price
-        self.eth_price = eth_price
-        self.fee = fee
-
-
 def add_order(order, Orderbook):
     Orderbook.add_order_to_orderbook(order)
 
@@ -81,12 +70,13 @@ def find_best_match(token1, token2):
 
 
 ExampleBook = Orderbook()
-example = order("RadarRelay", "WETH", "DAI", 10, 7.5, 137.1, 0)
+example = Order("RadarRelay", "WETH", "DAI", 10, 7.5, 137.1, 0)
 add_order(example, ExampleBook)
-example2 = order("RadarRelay", "WETH", "DAI", 8, 7.5, 137.1, 0)
+example2 = Order("RadarRelay", "WETH", "DAI", 8, 7.5, 137.1, 0)
 add_order(example2, ExampleBook)
-example3 = order("Bancor", "BTC", "RVN", 2100, 0.0002, 0.00001131, 0)
+example3 = Order("Bancor", "BTC", "RVN", 2100, 0.0002, 0.00001131, 0)
 add_order(example3, ExampleBook)
+
 for dex in ExampleBook.DEXs:
     print(dex, ":")
     for token in ExampleBook.DEXs[dex].tokens:
@@ -94,6 +84,7 @@ for dex in ExampleBook.DEXs:
             print(token, "-", pair, ":")
             for prc in ExampleBook.DEXs[dex].tokens[token].Pairs[pair].bid_book:
                 print(prc, ": [volume, eth_price, fee]:", ExampleBook.DEXs[dex].tokens[token].Pairs[pair].bid_book[prc], "\n")
+
 #RadarRelay :
 #WETH - DAI :
 #137.1 : [volume, eth_price, fee]: [18, 7.5, 0] 
@@ -101,9 +92,9 @@ for dex in ExampleBook.DEXs:
 #Bancor :
 #BTC - RVN :
 #1.131e-05 : [volume, eth_price, fee]: [2100, 0.0002, 0] 
-example4 = order("RadarRelay", "WETH", "DAI", 10, 7.5, 1000, 0)
+example4 = Order("RadarRelay", "WETH", "DAI", 10, 7.5, 1000, 0)
 add_order(example4, ExampleBook)
-example5 = order("Bancor", "DAI", "WETH", 10, 0.02, 0.002, 0)
+example5 = Order("Bancor", "DAI", "WETH", 10, 0.02, 0.002, 0)
 add_order(example5, ExampleBook)
 print(find_best_match("WETH", "DAI"))
 #[1000, 0.002, 2.0]
