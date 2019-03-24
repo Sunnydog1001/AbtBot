@@ -38,13 +38,13 @@ example_book = Orderbook()
 # example5 = Order("Bancor", "DAI", "WETH", 10, 0.02, 0.002, 0)
 # add_order(example5, example_book)
 
-example6 = Order("Radar Relay", "A", "B", 10, -1, 5, 0)
-example7 = Order("Radar Relay", "B", "C", 30, -1, 0.1, 0)
-example8 = Order("Radar Relay", "C", "A", 3, -1, 2.1, 0)
-
-example_book.add_order(example6)
-example_book.add_order(example7)
-example_book.add_order(example8)
+# example6 = Order("Radar Relay", "A", "B", 10, -1, 5, 0)
+# example7 = Order("Radar Relay", "B", "C", 30, -1, 0.1, 0)
+# example8 = Order("Radar Relay", "C", "A", 3, -1, 2.1, 0)
+#
+# example_book.add_order(example6)
+# example_book.add_order(example7)
+# example_book.add_order(example8)
 
 radar_relayer.get_info(example_book)
-example_book.find_arbitrary_situations(3)
+example_book.find_arbitrary_situations(2)

@@ -17,11 +17,13 @@ def get_bids(orderbook : Orderbook, market):
 			to_token = pair[1]
 			bids = info["bids"]
 
+			print("Downloading data...")
+
 			for bid in bids:
 				from_amount = bid["remainingBaseTokenAmount"]
 				eth_from_price = bid["price"]
 				eq_from_price = eth_from_price
-				order = Order("RadarRelayer", from_token, to_token,
+				order = Order("Radar Relayer", from_token, to_token,
                               float(from_amount), float(eth_from_price), float(eq_from_price), 0)
 				orderbook.add_order(order)
 	except:
@@ -37,12 +39,15 @@ def get_asks(orderbook, market):
 			to_token = pair[0]
 			asks = info["asks"]
 
+			print("Downloading data...")
+
 			for ask in asks:
 				from_amount = ask["remainingBaseTokenAmount"]
 				eth_from_price = ask["price"]
 				eq_from_price = eth_from_price
-				order = Order("RadarRelayer", from_token, to_token,
+				order = Order("Radar Relayer", from_token, to_token,
                               float(from_amount), float(eth_from_price), float(eq_from_price), 0)
+
 				orderbook.add_order(order)
 	except:
 		print("error")
