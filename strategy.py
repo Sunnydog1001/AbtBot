@@ -21,5 +21,5 @@ def find_best_match(orderbook, token1, token2):
 
     return [best_bid, best_ask, k] #если коэффициент > 1, возможна прибыльная сделка
 
-def find_arbitrary_sitations(orderbook):
+def find_arbitrary_situations(orderbook):
     pass

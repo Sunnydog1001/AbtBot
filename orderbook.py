@@ -40,7 +40,9 @@ class Orderbook(object):
 
     def __init__(self):
         self.DEXs = {}
-        self.order_dict = {}
+        self.orders_dict = {}
+        self.token_pairs = set()
+        self.tokens = []
 
     def add_order_to_orderbook(self, order):
         if order.dex_name in self.DEXs:
@@ -49,10 +51,35 @@ class Orderbook(object):
             self.DEXs[order.dex_name] = DEX()
             self.DEXs[order.dex_name].add_order_to_DEX(order)
 
-        if (order.ask_name, order.bid_name) not in self.order_dict:
-            self.order_dict[order.ask_name, order.bid_name] = [order]
+        if (order.bid_name, order.ask_name) not in self.orders_dict:
+            self.orders_dict[(order.bid_name, order.ask_name)] = [order]
         else:
-            self.order_dict[(order.ask_name, order.bid_name)].append(order)
+            self.orders_dict[(order.bid_name, order.ask_name)].append(order)
 
-def add_order(order, Orderbook):
-    Orderbook.add_order_to_orderbook(order)
+        self.token_pairs.add((order.bid_name, order.ask_name))
+        self.tokens.append(order.bid_name)
+        self.tokens.append(order.ask_name)
+
+    def find_path(self, from_token, to_token, path_len, chain, visited):
+        if path_len == 0 and from_token == to_token:
+            print(chain)
+            return
+
+        for (token1, token2) in self.token_pairs:
+            if token1 != from_token:
+                continue
+
+            for order in self.orders_dict[(token1, token2)]:
+                chain.append(order)
+                self.find_path(token2, to_token, path_len - 1, chain)
+                chain.pop()
+
+    def find_arbitrary_situations(self, k):
+        visited = set()
+
+        for token in self.tokens:
+            self.find_path(token, token, k, [])
+
+
+
+

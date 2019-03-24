@@ -3,8 +3,8 @@ from order import Order
 from strategy import find_best_match
 import radar_relayer
 
-def add_order(order, Orderbook):
-    Orderbook.add_order_to_orderbook(order)
+def add_order(order, orderbook):
+    orderbook.add_order_to_orderbook(order)
 
 main_orderbook = Orderbook()
 example_book = Orderbook()
@@ -32,10 +32,11 @@ example_book = Orderbook()
 # #BTC - RVN :
 # #1.131e-05 : [volume, eth_price, fee]: [2100, 0.0002, 0]
 #
-# example4 = Order("RadarRelay", "WETH", "DAI", 10, 7.5, 1000, 0)
-# add_order(example4, example_book)
-# example5 = Order("Bancor", "DAI", "WETH", 10, 0.02, 0.002, 0)
-# add_order(example5, example_book)
 
-radar_relayer.get_info(example_book)
-print(find_best_match(example_book, "WETH", "DAI"))
+example4 = Order("RadarRelay", "WETH", "DAI", 10, 7.5, 1000, 0)
+add_order(example4, example_book)
+example5 = Order("Bancor", "DAI", "WETH", 10, 0.02, 0.002, 0)
+add_order(example5, example_book)
+
+# radar_relayer.get_info(example_book)
+example_book.find_arbitrary_situations(2)
