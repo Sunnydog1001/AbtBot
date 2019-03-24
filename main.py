@@ -4,7 +4,7 @@ from strategy import find_best_match
 import radar_relayer
 
 def add_order(order, orderbook):
-    orderbook.add_order_to_orderbook(order)
+    orderbook.add_order(order)
 
 main_orderbook = Orderbook()
 example_book = Orderbook()
@@ -33,10 +33,18 @@ example_book = Orderbook()
 # #1.131e-05 : [volume, eth_price, fee]: [2100, 0.0002, 0]
 #
 
-example4 = Order("RadarRelay", "WETH", "DAI", 10, 7.5, 1000, 0)
-add_order(example4, example_book)
-example5 = Order("Bancor", "DAI", "WETH", 10, 0.02, 0.002, 0)
-add_order(example5, example_book)
+# example4 = Order("RadarRelay", "WETH", "DAI", 10, 7.5, 1000, 0)
+# add_order(example4, example_book)
+# example5 = Order("Bancor", "DAI", "WETH", 10, 0.02, 0.002, 0)
+# add_order(example5, example_book)
+
+example6 = Order("Radar Relay", "A", "B", 10, -1, 5, 0)
+example7 = Order("Radar Relay", "B", "C", 30, -1, 0.1, 0)
+example8 = Order("Radar Relay", "C", "A", 3, -1, 2.1, 0)
+
+example_book.add_order(example6)
+example_book.add_order(example7)
+example_book.add_order(example8)
 
 # radar_relayer.get_info(example_book)
-example_book.find_arbitrary_situations(2)
+example_book.find_arbitrary_situations(3)

@@ -5,7 +5,7 @@ class Pair(object):
     def __init__(self):
         self.bid_book = {} # bid_book = {price : [volume, eth_price, fee]}
 
-    def add_order_to_Pair(self, order):
+    def add_order(self, order):
         if order.price in self.bid_book:
             self.bid_book[order.price][0] += order.volume
         else:
@@ -14,26 +14,26 @@ class Pair(object):
 class Tokenbook(object):
 
     def __init__(self):
-        self.Pairs = {}  # PairName : PairObject
+        self.pairs = {}  # PairName : PairObject
 
-    def add_order_to_Tokenbook(self, order):
-        if order.ask_name in self.Pairs:
-            self.Pairs[order.ask_name].add_order_to_Pair(order)
+    def add_order(self, order):
+        if order.ask_name in self.pairs:
+            self.pairs[order.ask_name].add_order(order)
         else:
-            self.Pairs[order.ask_name] = Pair()
-            self.Pairs[order.ask_name].add_order_to_Pair(order)
+            self.pairs[order.ask_name] = Pair()
+            self.pairs[order.ask_name].add_order(order)
 
 class DEX(object):
 
     def __init__(self):
         self.tokens = {}  # TokenName : TokenObject
 
-    def add_order_to_DEX(self, order):
+    def add_order(self, order):
         if order.bid_name in self.tokens:
-            self.tokens[order.bid_name].add_order_to_Tokenbook(order)
+            self.tokens[order.bid_name].add_order(order)
         else:
             self.tokens[order.bid_name] = Tokenbook()
-            self.tokens[order.bid_name].add_order_to_Tokenbook(order)
+            self.tokens[order.bid_name].add_order(order)
 
 
 class Orderbook(object):
@@ -44,12 +44,12 @@ class Orderbook(object):
         self.token_pairs = set()
         self.tokens = set()
 
-    def add_order_to_orderbook(self, order):
+    def add_order(self, order):
         if order.dex_name in self.DEXs:
-            self.DEXs[order.dex_name].add_order_to_DEX(order)
+            self.DEXs[order.dex_name].add_order(order)
         else:
             self.DEXs[order.dex_name] = DEX()
-            self.DEXs[order.dex_name].add_order_to_DEX(order)
+            self.DEXs[order.dex_name].add_order(order)
 
         if (order.bid_name, order.ask_name) not in self.orders_dict:
             self.orders_dict[(order.bid_name, order.ask_name)] = [order]
@@ -60,9 +60,12 @@ class Orderbook(object):
         self.tokens.add(order.bid_name)
         self.tokens.add(order.ask_name)
 
-    def find_path(self, from_token, to_token, path_len, chain, visited):
+    def find_path(self, from_token, to_token, coef, path_len, chain, visited):
         if path_len == 0 and from_token == to_token:
-            print(chain)
+            if coef > 1.0:
+                print(coef)
+                print(chain)
+
             return
 
         visited.add(from_token)
@@ -76,7 +79,7 @@ class Orderbook(object):
 
             for order in self.orders_dict[(token1, token2)]:
                 chain.append(order)
-                self.find_path(token2, to_token, path_len - 1, chain, visited)
+                self.find_path(token2, to_token, coef * order.price, path_len - 1, chain, visited)
                 chain.pop()
 
         visited.remove(from_token)
@@ -85,7 +88,7 @@ class Orderbook(object):
         visited = set()
 
         for token in self.tokens:
-            self.find_path(token, token, k, [], visited)
+            self.find_path(token, token, 1, k, [], visited)
 
 
 
