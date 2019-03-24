@@ -60,12 +60,42 @@ class Orderbook(object):
         self.tokens.add(order.bid_name)
         self.tokens.add(order.ask_name)
 
-    def find_path(self, from_token, to_token, coef, path_len, chain, visited):
+    @staticmethod
+    def _normalize_chain(chain):
+        for i in range(1, len(chain)):
+            k = chain[i].volume / (chain[i - 1].volume * chain[i - 1].price)
+
+            if k < 1:
+                for j in range(i):
+                    chain[j].volume *= k
+            else:
+                chain[i].volume /= k
+
+
+    @staticmethod
+    def _print_chain(chain):
+        print(f"{chain[0].volume:10.4f} {chain[0].bid_name} "
+              f"\t\t{chain[0].dex_name}"
+              f"{chain[0].volume * chain[0].price:10.4f} {chain[0].ask_name}", end="")
+
+        for order in chain[1:]:
+            print(f"\t\t{order.dex_name}"
+                  f"{order.volume * order.price:10.4f} {order.ask_name}", end="")
+
+        print()
+
+    def _find_path(self, from_token, to_token, coef, path_len, chain, visited):
         if path_len == 0 and from_token == to_token:
             if coef > 1.0:
-                print(coef)
-                print(chain)
+                print("Arbitrary situation:")
+                print(f"Coefficient: {coef}")
 
+                Orderbook._normalize_chain(chain)
+                Orderbook._print_chain(chain)
+
+            return
+
+        if from_token in visited:
             return
 
         visited.add(from_token)
@@ -74,12 +104,9 @@ class Orderbook(object):
             if token1 != from_token:
                 continue
 
-            if token2 in visited and token2 != to_token:
-                continue
-
             for order in self.orders_dict[(token1, token2)]:
                 chain.append(order)
-                self.find_path(token2, to_token, coef * order.price, path_len - 1, chain, visited)
+                self._find_path(token2, to_token, coef * order.price, path_len - 1, chain, visited)
                 chain.pop()
 
         visited.remove(from_token)
@@ -88,7 +115,8 @@ class Orderbook(object):
         visited = set()
 
         for token in self.tokens:
-            self.find_path(token, token, 1, k, [], visited)
+            self._find_path(token, token, 1, k, [], visited)
+            visited.clear()
 
 
 

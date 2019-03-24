@@ -21,7 +21,8 @@ def get_bids(orderbook : Orderbook, market):
 				from_amount = bid["remainingBaseTokenAmount"]
 				eth_from_price = bid["price"]
 				eq_from_price = eth_from_price
-				order = Order("RadarRelayer", from_token, to_token, from_amount, eth_from_price, eq_from_price, 0)
+				order = Order("RadarRelayer", from_token, to_token,
+                              float(from_amount), float(eth_from_price), float(eq_from_price), 0)
 				orderbook.add_order(order)
 	except:
 		print("error")
@@ -40,7 +41,8 @@ def get_asks(orderbook, market):
 				from_amount = ask["remainingBaseTokenAmount"]
 				eth_from_price = ask["price"]
 				eq_from_price = eth_from_price
-				order = Order("RadarRelayer", from_token, to_token, from_amount, eth_from_price, eq_from_price, 0)
+				order = Order("RadarRelayer", from_token, to_token,
+                              float(from_amount), float(eth_from_price), float(eq_from_price), 0)
 				orderbook.add_order(order)
 	except:
 		print("error")

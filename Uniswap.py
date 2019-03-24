@@ -1,8 +1,6 @@
-import web3
 from web3 import Web3, HTTPProvider, IPCProvider, WebsocketProvider
 import json
 import urllib.request
-
 
 class Order(object):
 	def __init__(self, bid = "",  ask = "", volume = 0, eth_price = 0,
@@ -57,8 +55,8 @@ while (i < tokenAmount):
 		eth_from_price = info['invPrice']
 		eq_from_price = eth_from_price
 
-		order1 = Order(token1, token2, from_amount1, eth_from_price, eq_from_price)
-		order2 = Order(token2, token1, from_amount2, eth_price = "1.000000000000000000", price = info["price"])
+		order1 = Order("Uniswap", token1, token2, float(from_amount1), float(eth_from_price), float(eq_from_price), 0.003)
+		order2 = Order("Uniswap", token2, token1, float(from_amount2), float(1), float(info["price"]), 0.003)
 		
 		eth_orders.append(order1)
 		eth_orders.append(order2)

@@ -46,5 +46,5 @@ example_book.add_order(example6)
 example_book.add_order(example7)
 example_book.add_order(example8)
 
-# radar_relayer.get_info(example_book)
+radar_relayer.get_info(example_book)
 example_book.find_arbitrary_situations(3)
