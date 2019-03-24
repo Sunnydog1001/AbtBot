@@ -26,6 +26,7 @@ def get_info(orderbook):
 
 		try:
 			with urllib.request.urlopen(exchange_url + exchangeAddress) as response:
+				# print("Success: " + exchange_url + exchangeAddress)
 				jsn = response.read()
 				info = json.loads(jsn)
 
@@ -46,9 +47,7 @@ def get_info(orderbook):
 
 				print(order1)
 				print(order2)
-				# eth_orders.append(order1)
-				# eth_orders.append(order2)
 
 		except Exception as exc:
-			print(exchange_url + exchangeAddress)
-			print(exc)
+			# print(exc, exchange_url + exchangeAddress)
+			continue
