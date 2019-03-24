@@ -42,7 +42,7 @@ class Orderbook(object):
         self.DEXs = {}
         self.orders_dict = {}
         self.token_pairs = set()
-        self.tokens = []
+        self.tokens = set()
 
     def add_order_to_orderbook(self, order):
         if order.dex_name in self.DEXs:
@@ -57,28 +57,35 @@ class Orderbook(object):
             self.orders_dict[(order.bid_name, order.ask_name)].append(order)
 
         self.token_pairs.add((order.bid_name, order.ask_name))
-        self.tokens.append(order.bid_name)
-        self.tokens.append(order.ask_name)
+        self.tokens.add(order.bid_name)
+        self.tokens.add(order.ask_name)
 
     def find_path(self, from_token, to_token, path_len, chain, visited):
         if path_len == 0 and from_token == to_token:
             print(chain)
             return
 
+        visited.add(from_token)
+
         for (token1, token2) in self.token_pairs:
             if token1 != from_token:
                 continue
 
+            if token2 in visited and token2 != to_token:
+                continue
+
             for order in self.orders_dict[(token1, token2)]:
                 chain.append(order)
-                self.find_path(token2, to_token, path_len - 1, chain)
+                self.find_path(token2, to_token, path_len - 1, chain, visited)
                 chain.pop()
+
+        visited.remove(from_token)
 
     def find_arbitrary_situations(self, k):
         visited = set()
 
         for token in self.tokens:
-            self.find_path(token, token, k, [])
+            self.find_path(token, token, k, [], visited)
 
 
 
