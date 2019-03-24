@@ -73,12 +73,12 @@ class Orderbook(object):
 
 
     @staticmethod
-    def _print_chain(chain, coef):
-        if (chain[0].volume < 10e-5):
-            return
+    def _print_chain(chain, original_chain, coef):
 
-        print("Arbitrary situation:")
-        print(f"Coefficient: {coef}")
+        print(original_chain)
+        print(f"Coefficient: {coef:.4E}")
+
+        # print(original_chain)
 
         print(f"{chain[0].volume:10.4E} {chain[0].bid_name} "
               f"\t\t{chain[0].dex_name}"
@@ -93,10 +93,9 @@ class Orderbook(object):
     def _find_path(self, from_token, to_token, coef, path_len, chain, visited):
         if path_len == 0 and from_token == to_token:
             if coef > 1.0:
-                # print(chain)
+                original_chain = chain.copy()
                 Orderbook._normalize_chain(chain)
-                # print(chain)
-                Orderbook._print_chain(chain, coef)
+                Orderbook._print_chain(chain, original_chain, coef)
 
             return
 

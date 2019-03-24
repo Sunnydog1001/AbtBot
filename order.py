@@ -13,4 +13,4 @@ class Order(object):
         return f"Order: giving {self.volume:.4E} {self.bid_name} for {self.volume * self.price:.4E} {self.ask_name}"
 
     def __repr__(self):
-        return self.__str__()
+        return f"bid: {self.bid_name}, ask: {self.ask_name}, price: {self.price}, volume: {self.volume}"
