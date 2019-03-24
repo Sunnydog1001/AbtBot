@@ -46,7 +46,7 @@ def get_asks(orderbook, market):
 				eth_from_price = ask["price"]
 				eq_from_price = eth_from_price
 				order = Order("Radar Relayer", from_token, to_token,
-                              float(from_amount), float(eth_from_price), float(eq_from_price), 0)
+                              float(from_amount), float(eth_from_price), 1 / float(eq_from_price), 0)
 
 				orderbook.add_order(order)
 	except:
