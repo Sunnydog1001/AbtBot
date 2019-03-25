@@ -1,8 +1,9 @@
 from orderbook import Orderbook
 from order import Order
-import radar_relayer
+import radar_relay
 import uniswap
 import bancor
+import bit
 
 main_orderbook = Orderbook()
 
@@ -13,9 +14,11 @@ main_orderbook = Orderbook()
 # main_orderbook.add_order(example7)
 # main_orderbook.add_order(example8)
 
-# radar_relayer.get_info(main_orderbook)
+radar_relay.get_info(main_orderbook)
 # uniswap.get_info(main_orderbook)
-bancor.get_info(main_orderbook)
+# bancor.get_info(main_orderbook)
+bit.get_info(main_orderbook)
 
 main_orderbook.find_arbitrary_situations(3)
 main_orderbook.find_arbitrary_situations(4)
+main_orderbook.find_arbitrary_situations(5)

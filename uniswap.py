@@ -26,12 +26,13 @@ def get_info(orderbook):
 
 		try:
 			with urllib.request.urlopen(exchange_url + exchangeAddress) as response:
-				# print("Success: " + exchange_url + exchangeAddress)
 				jsn = response.read()
 				info = json.loads(jsn)
 
 				token1 = info["symbol"]
 				token2 = "ETH"
+
+				print("Downloading data...")
 
 				from_amount1 = info["erc20Liquidity"]
 				from_amount2 = info["ethLiquidity"]
@@ -44,9 +45,6 @@ def get_info(orderbook):
 
 				orderbook.add_order(order1)
 				orderbook.add_order(order2)
-
-				print(order1)
-				print(order2)
 
 		except Exception as exc:
 			# print(exc, exchange_url + exchangeAddress)
