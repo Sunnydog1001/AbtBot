@@ -17,63 +17,60 @@ tiker3 = "&displayCurrencyCode="
 
 def getId(token):
     try:
-        urllib.request.urlopen(token_data_url1 + token + token_data_url2)
-    except:
-        print(token, "shit")
-        return -1
-    with urllib.request.urlopen(token_data_url1 + token + token_data_url2) as response:
-        jsn = response.read()
-        info = json.loads(jsn)
-        info = info["data"]["page"][0]
-    return info["_id"]
+        with urllib.request.urlopen(token_data_url1 + token + token_data_url2) as response:
+            jsn = response.read()
+            info = json.loads(jsn)
+            info = info["data"]["page"][0]
+        return info["_id"]
+    except Exception as exc:
+        print(exc)
 
 
 def getAmount(token1, token2):
     try:
-        urllib.request.urlopen(tiker1 + token1 + tiker2 + token2 + tiker3 + token2)
-    except:
-        return -1
-    with urllib.request.urlopen(tiker1 + token1 + tiker2 + token2 + tiker3 + token2) as response:
-        jsn = response.read()
-        info = json.loads(jsn)
-        info = info["data"]
-    return info["totalSupplyD"]
+        with urllib.request.urlopen(tiker1 + token1 + tiker2 + token2 + tiker3 + token2) as response:
+            jsn = response.read()
+            info = json.loads(jsn)
+            info = info["data"]
+        return info["totalSupplyD"]
+    except Exception as exc:
+        print(exc)
 
 
 def getPriceEth(token1, token2):
     try:
         urllib.request.urlopen(tiker1 + token1 + tiker2 + token2 + tiker3 + "ETH")
-    except:
-        return -1
-    with urllib.request.urlopen(tiker1 + token1 + tiker2 + token2 + tiker3 + "ETH") as response:
-        jsn = response.read()
-        info = json.loads(jsn)
-        info = info["data"]
-    return info["price24h"]
+
+        with urllib.request.urlopen(tiker1 + token1 + tiker2 + token2 + tiker3 + "ETH") as response:
+            jsn = response.read()
+            info = json.loads(jsn)
+            info = info["data"]
+
+        return info["price24h"]
+    except Exception as exc:
+        print(exc)
 
 
 def getPriceEq(token1, token2):
     try:
-        urllib.request.urlopen(tiker1 + token1 + tiker2 + token2 + tiker3 + token2)
-    except:
-        return -1
-    with urllib.request.urlopen(tiker1 + token1 + tiker2 + token2 + tiker3 + token2) as response:
-        jsn = response.read()
-        info = json.loads(jsn)
-        info = info["data"]
-    return info["price24h"]
+        with urllib.request.urlopen(tiker1 + token1 + tiker2 + token2 + tiker3 + token2) as response:
+            jsn = response.read()
+            info = json.loads(jsn)
+            info = info["data"]
+        return info["price24h"]
+    except Exception as exc:
+        print(exc)
 
 
 def getPriceEq_and_Amount(token1, token2):
     try:
-        urllib.request.urlopen(tiker1 + token1 + tiker2 + token2 + tiker3 + token2)
-    except:
-        return -1
-    with urllib.request.urlopen(tiker1 + token1 + tiker2 + token2 + tiker3 + token2) as response:
-        jsn = response.read()
-        info = json.loads(jsn)
-        info = info["data"]
-        return info["price24h"], info["totalSupplyD"]
+        with urllib.request.urlopen(tiker1 + token1 + tiker2 + token2 + tiker3 + token2) as response:
+            jsn = response.read()
+            info = json.loads(jsn)
+            info = info["data"]
+            return info["price24h"], info["totalSupplyD"]
+    except Exception as exc:
+        print(exc)
 
 
 def make_order(token1, token2):
