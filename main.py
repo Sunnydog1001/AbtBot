@@ -15,10 +15,9 @@ main_orderbook = Orderbook()
 # main_orderbook.add_order(example8)
 
 radar_relay.get_info(main_orderbook)
-# uniswap.get_info(main_orderbook)
+uniswap.get_info(main_orderbook)
 # bancor.get_info(main_orderbook)
 bit.get_info(main_orderbook)
 
+main_orderbook.find_arbitrary_situations(2)
 main_orderbook.find_arbitrary_situations(3)
-main_orderbook.find_arbitrary_situations(4)
-main_orderbook.find_arbitrary_situations(5)

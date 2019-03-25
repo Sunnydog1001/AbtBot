@@ -7,8 +7,7 @@ my_bittrex = Bittrex("bcffcecbc9dd44f3b7000c7ebd11e1f4", "41a3b9169b754a32a1b566
 def get_info(orderbook):
     markets = my_bittrex.get_markets()['result']
 
-    for market in markets:
-
+    for market in markets[:10]:
         result = my_bittrex.get_orderbook(market['MarketName'])['result']
 
         buy_orders = result['buy']
